@@ -1,23 +1,22 @@
 import Base_Functions as bf
 import itertools as itt
-
-
+import math 
 
 #*******************************************************************************
 # START MAJOR FUNCTIONS      ***************************************************
 
 # Decrypt a file by converting each line to it's binary representation. Using 
 # Character Freqency Analysis, find suitable decodings to update highest score.
-# Input : file name as a string, or single string
+# Input : file name as a string, or single string in hex format
 # Output: best result as a list
-def DecryptCypherByte(ifname):
+def BreakCypherHex(ifname):
     temp = [0.0, '', '', '']
     score = 0.0
     if ifname.endswith('.txt'):
         with open(ifname, 'r', encoding='latin_1') as fd:
             for line in fd:
                 for i in range(0,256,1):
-                    x = bf.Hex2Bin(line.rstrip('\n'))
+                    x = bf.Hex2Byt(line.rstrip('\n'))
                     x = bf.SingleByteXOR(x, i)
                     score = bf.ScoreLine(x)
                     if score > temp[0]:
@@ -27,7 +26,7 @@ def DecryptCypherByte(ifname):
                         temp[3] = line
     else:
         for i in range(0,256,1):
-            x = bf.Hex2Bin(ifname)
+            x = bf.Hex2Byt(ifname)
             x = bf.SingleByteXOR(x, i)
             score = bf.ScoreLine(x)
             if score > temp[0]:
@@ -35,6 +34,21 @@ def DecryptCypherByte(ifname):
                 temp[1] = chr(i)
                 temp[2] = x
                 temp[3] = ifname        
+    return temp
+
+# Decrypt a file by converting each line to it's binary representation. Using 
+# Character Freqency Analysis, find suitable decodings to update highest score.
+# Input : file name as a string, or single string in byte format
+# Output: best result as a list
+def BreakCypherByte(ifname):
+    temp = [0.0, '']
+    score = 0.0
+    for i in range(0,256,1):
+        x = bf.SingleByteXOR(ifname, i)
+        score = bf.ScoreLine(x)
+        if score > temp[0]:
+            temp[0] = score
+            temp[1] = chr(i)    
     return temp
 
 # Encrypt a file by concatinating all lines, create a repeating key string to
@@ -48,57 +62,51 @@ def EncryptFileKey(ifname, key):
         for line in fd:
             temp += line
         y = bf.RepString(key, len(temp))
-        x = bf.Str2Bin(temp)
-        y = bf.Str2Bin(y)
+        x = bf.Str2Byt(temp)
+        y = bf.Str2Byt(y)
         ret = bf.DualBufferXOR(x,y)
     with open("Output_" + ifname, 'wb') as fd:
-        fd.write(bf.Bin2Hex(ret)) 
-    return "Written To File"
+        fd.write(bf.Byt2Hex(ret)) 
+    return bf.Byt2Hex(ret)
 
 # Takes two input strings of the same length and XOR's the result.  The result
 # counts the number of 1's in the result or hamming distance, and returns it.
 # Inputs: Byte/arrays for XOR'ing
 # Outputs: Count of Hamming Distance
 def HammingDistance(temp1,temp2):
-    a = bf.Str2Bin(temp1)
-    b = bf.Str2Bin(temp2)
-    res = bf.DualBufferXOR(a,b)
-    return bf.Bin2Bit(res).count('1')
+    if isinstance(temp1, str):
+        temp1 = bf.Str2Byt(temp1)
+        temp2 = bf.Str2Byt(temp2)
+    res = bf.DualBufferXOR(temp1,temp2)
+    return bf.Byt2Bit(res).count('1')
 
 # To break a repeating key cipher, find the lowest normalized (average) score
 # using it's hamming distance to find a key length.  Break the cypher text into 
 # key length blocks, treat each column as a cypher text row and decrypt using 
 # the byte cypher process and char frequency to find the key for each row; which
 # should provide the key.
-# Inputs: provide file_name and a key length option; default is 40
+# Inputs: provide file_name in bytes, key_length lo and hi, 
 # Outputs: Return  calculated key length, and highest frequency chars associatd
 def BreakRepKeyXOR(ifname, lo=2, hi=40, st=4):
-    temp = ''
-    with open(ifname, 'r') as fd:
-        for line in fd:
-            temp += line.rstrip('\n')
-    temp = bf.Base642Bin(temp)
     result = {}
     for i in range(lo,hi+1):
-        chunks = [temp[j:j + i] for j in range(0, len(temp), i)][0:st]
+        chunks = [ifname[j:j + i] for j in range(0, len(ifname), i)][0:st]
         hd = 0
         for x,y in itt.combinations(chunks,2):
-            hd += bf.DualBufferXOR(x,y)
-        hd /= 6
+            hd += HammingDistance(x,y)
+        hd /= (math.comb(st,2))
         result[i] = hd/i
-    pk = sorted(result, key=result.get)[:3]
-    ptexts = []
-    for k in pk:
-        key = b''
-        for l in range(k):
+    pkey = sorted(result, key=result.get)[0:1]
+    ptext = []
+    for k in pkey:
+        key = []
+        for i in range(k):
             block = b''
-            for m in range(l, len(temp), k):
-                block += bytes([temp[m]])
-            key += bf.SingleByteXOR(block, int(key))
-        print(key)
-
-             
-    return temp
+            for j in range(i, len(ifname), k):
+                block += bytes([ifname[j]])
+            key += BreakCypherByte(block)[1]    
+        ptext = (k, "".join(key)) 
+    return ptext
 
 # END MAJOR FUNCTIONS      *****************************************************
 #*******************************************************************************

@@ -27,27 +27,31 @@ BETA = 1.1
 # START BASE FUNCTIONS      ****************************************************
 
 # Takes Binary string and returns Base64 version
-def Bin2Base64(temp):
+def Byt2Base64(temp):
     return bicii.b2a_base64(temp)
 
 # Takes Binary string and returns Hexidecimal version
-def Bin2Hex(temp):
+def Byt2Hex(temp):
     return bicii.hexlify(temp)
 
 # Takes Base64 string and returns Binary version
-def Base642Bin(temp):
+def Base642Byt(temp):
     return bicii.a2b_base64(temp)
 
+# Takes Base64 string and returns ASCII string
+def Base642Str(temp):
+    return bicii.b2a_qp(temp)
+
 # Takes Hexidecimal string and returns Binary version
-def Hex2Bin(temp):
+def Hex2Byt(temp):
     return bicii.unhexlify(temp)
 
 # Takes String and returns Binary version
-def Str2Bin(temp):
+def Str2Byt(temp):
     return temp.encode(encoding='latin_1')
 
-# takes binary string and returns a bit string
-def Bin2Bit(temp):
+# takes byte string and returns a bit string
+def Byt2Bit(temp):
     res = ""
     for i in temp:
         res += bin(i).lstrip('0b')
