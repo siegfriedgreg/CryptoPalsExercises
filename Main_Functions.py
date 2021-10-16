@@ -73,7 +73,7 @@ def Sec1_Ch6():
     hcB = 'wokka wokka!!!'
     print("Section 1 : Challenge 6 \n") 
 
-    hd_test = mf.HammingDistance(hcA,hcB)
+    hd_test = bf.HammingDistance(hcA,hcB)
     print("Hamming distance: {} \n".format(hd_test))
     temp = ''
     plain_text = ''
@@ -90,4 +90,45 @@ def Sec1_Ch6():
     
     return
 # ------------------------------------------------------------------------------
+def Sec1_Ch7():
+    Ch7 = "Ch1_7.txt"
+    Ch7k = 'YELLOW SUBMARINE'
+    print("Section 1 : Challenge 7 \n") 
 
+    temp = ''
+    plain_text = ''
+    with open(Ch7, 'r') as fd:
+        for line in fd:
+            temp += line.rstrip('\n')
+    temp = bf.Base642Byt(temp)
+    ktemp = bf.Str2Byt(Ch7k)
+    result = mf.DecryptAES128_ECB(temp, ktemp)
+    with open("Output_" + Ch7, 'wb') as fd:
+        fd.write(result)
+    print("Ans: '{}' ".format(result))
+
+    return
+# ------------------------------------------------------------------------------
+def Sec1_Ch8():
+    Ch8 = "Ch1_8.txt"
+    Ch8Res = 132
+    print("Section 1 : Challenge 7 \n")
+
+    temp = ''
+    rtemp = {}
+    result = []
+    with open(Ch8, 'r') as fd:
+        for idx, line in enumerate(fd):
+            temp = line.rstrip('\n')
+            temp = bf.Str2Byt(temp)
+            rtemp[idx] = mf.DetectAES128_ECB(temp)
+    result = max(rtemp, key=rtemp.get)
+    print("Expected: {} | {} is the result. \n".format(Ch8Res,result))
+
+    return
+# ------------------------------------------------------------------------------
+def Sec2_Ch1():
+
+    return
+
+# ------------------------------------------------------------------------------

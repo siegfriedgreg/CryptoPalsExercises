@@ -26,36 +26,40 @@ BETA = 1.1
 #*******************************************************************************
 # START BASE FUNCTIONS      ****************************************************
 
-# Takes Binary string and returns Base64 version
+# Takes Byte string and returns a Base64 string
 def Byt2Base64(temp):
     return bicii.b2a_base64(temp)
 
-# Takes Binary string and returns Hexidecimal version
-def Byt2Hex(temp):
-    return bicii.hexlify(temp)
-
-# Takes Base64 string and returns Binary version
-def Base642Byt(temp):
-    return bicii.a2b_base64(temp)
-
-# Takes Base64 string and returns ASCII string
-def Base642Str(temp):
-    return bicii.b2a_qp(temp)
-
-# Takes Hexidecimal string and returns Binary version
-def Hex2Byt(temp):
-    return bicii.unhexlify(temp)
-
-# Takes String and returns Binary version
-def Str2Byt(temp):
-    return temp.encode(encoding='latin_1')
-
-# takes byte string and returns a bit string
+# Takes Byte string and returns a Bit string
 def Byt2Bit(temp):
     res = ""
     for i in temp:
         res += bin(i).lstrip('0b')
     return res
+
+# Takes Byte string and returns a Hex string
+def Byt2Hex(temp):
+    return bicii.hexlify(temp)
+
+# Takes Byte string and returns a ASCII string
+def Byt2Str(temp):
+    return temp.decode('utf-8')
+
+# Takes Base64 string and returns a Byte string
+def Base642Byt(temp):
+    return bicii.a2b_base64(temp)
+
+# Takes Base64 string and returns a ASCII string
+def Base642Str(temp):
+    return bicii.b2a_qp(temp)
+
+# Takes Hex string and returns a Byte string
+def Hex2Byt(temp):
+    return bicii.unhexlify(temp)
+
+# Takes String and returns a Byte string
+def Str2Byt(temp):
+    return temp.encode(encoding='latin_1')
 
 # Inputs: A string, and a number
 # Outputs: a string repeated to a certain length
@@ -82,6 +86,17 @@ def ScoreLine(temp):
         if i in CharFreqTable.keys():
             score += (BETA * CharFreqTable[i])
     return score
+
+# Takes two input strings of the same length and XOR's the result.  The result
+# counts the number of 1's in the result or hamming distance, and returns it.
+# Inputs: Byte/arrays for XOR'ing
+# Outputs: Count of Hamming Distance
+def HammingDistance(temp1,temp2):
+    if isinstance(temp1, str):
+        temp1 = Str2Byt(temp1)
+        temp2 = Str2Byt(temp2)
+    res = DualBufferXOR(temp1,temp2)
+    return Byt2Bit(res).count('1')
 
 # END BASE FUNCTIONS      ******************************************************
 #*******************************************************************************
