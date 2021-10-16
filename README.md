@@ -6,10 +6,14 @@
     Python 3+ | Jupyter Notebook | PyCryptoDome 3+
 
 #### Set 1
-    Set 1 : complete, Main_Function Sec1_Ch1
-    Set 2 : complete, Main_Function Sec1_Ch2
-    Set 3 : complete, Main_Function Sec1_Ch3
-    Set 4 : complete, Main_Function Sec1_Ch4
-    Set 5 : complete, Main_Function Sec1_Ch5
-    Set 6 : complete, Main_Function Sec1_Ch6
-    Set 7 : in progress...
+    Ch 1 : complete, convert hex to base64
+    Ch 2 : complete, fixed xor
+    Ch 3 : complete, single-byte xor cypher
+    Ch 4 : complete, detect single char xor
+    Ch 5 : complete, implement repeating key xor
+    Ch 6 : complete, break repeating key xor
+    Ch 7 : complete, AES in ECB mode
+    Ch 8 : complete, Detect AES in ECB mode
+    
+#### Set 2
+    Ch 9 : In progress...
