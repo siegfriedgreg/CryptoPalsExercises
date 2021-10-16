@@ -6,9 +6,10 @@
     Python 3+ | Jupyter Notebook | PyCryptoDome 3+
 
 #### Set 1
-    Set 1 : Bin2Base64(Hex2Bin(Ch1)) == Ch1Res
-    Set 2 : DualBufferXOR(Hex2Bin(Ch2a),Hex2Bin(Ch2b)) == Ch2Res
-    Set 3 : DecryptCypherByte(Ch3) == Ch3Res
-    Set 4 : DecryptCypherByte('Ch1_4.txt') == Ch4Res
-    Set 5 : EncryptFileKey('Ch1_5.txt', 'ICE') == Ch5Res
-    Set 6 : In progress...
+    Set 1 : complete, Main_Function Sec1_Ch1
+    Set 2 : complete, Main_Function Sec1_Ch2
+    Set 3 : complete, Main_Function Sec1_Ch3
+    Set 4 : complete, Main_Function Sec1_Ch4
+    Set 5 : complete, Main_Function Sec1_Ch5
+    Set 6 : complete, Main_Function Sec1_Ch6
+    Set 7 : in progress...
