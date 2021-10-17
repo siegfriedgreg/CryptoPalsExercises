@@ -66,6 +66,14 @@ def Str2Byt(temp):
 def RepString(temp, num):
     return (temp * num)[0:num]
 
+# Inputs: a byte array, and desired total padding length
+# Outputs: a byte array padded to the desired length
+def PadByteString(temp, num):
+    x = num - len(temp)
+    result = temp + bytes(range(x))
+
+    return result
+
 # Inputs: two equal length strings in bytes
 # Outputs: bytearray decrypted in raw bytes
 def DualBufferXOR(temp1,temp2):

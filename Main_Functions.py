@@ -127,8 +127,23 @@ def Sec1_Ch8():
 
     return
 # ------------------------------------------------------------------------------
-def Sec2_Ch1():
+def Sec2_Ch9():
+    Ch9 = "YELLOW SUBMARINE" # 16 Bytes long
+    Ch9Pad = 20 #The number of bytes to pad out to
+    Ch9Res = b"YELLOW SUBMARINE\x04\x04\x04\x04"
+    print("Section 2 : Challenge 9 \n")
+
+    temp = bf.Str2Byt(Ch9)
+    result = bf.PadByteString(temp, Ch9Pad)
+    print("Expected: {} \n \t  {} is the result. \n".format(Ch9Res,result))
 
     return
+# ------------------------------------------------------------------------------
+def Sec2_Ch10():
+    Ch10 = "Ch2_10.txt"
+    CH10Str = "YELLOW SUBMARINE"
+    CH10Iv = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
+    
 
+    return
 # ------------------------------------------------------------------------------
