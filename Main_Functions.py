@@ -11,7 +11,7 @@ def Sec1_Ch1():
     print(Ch1)
     temp = bf.Hex2Byt(Ch1)
     temp = bf.Byt2Base64(temp)
-    result = bf.Base642Str(temp)
+    result = bf.Base642Str(temp)[0:len(temp)-1:1] # Strip \n
     print("Ans: '{}' ".format(result))
     print("Key: 'b'{}' ".format(Ch1Res))
 
@@ -34,24 +34,25 @@ def Sec1_Ch2():
 # ------------------------------------------------------------------------------
 def Sec1_Ch3():
     Ch3 = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-    Ch3Res = ('X', "Cooking MC's like a pound of bacon")
+    Ch3Res = "'X', b'Cooking MC's like a pound of bacon'"
     print("Section 1 : Challenge 3 \n")
 
-    print(Ch3)
+    print("Input:  {}".format(Ch3))
     result = mf.BreakCypherHex(Ch3)
-    print("Ans: '{}' ".format(result))
-    print("Key: 'b'{}' ".format(Ch3Res))   
+    print("Ans: '{}', {} ".format(result[1], result[2]))
+    print("Key: {} ".format(Ch3Res))   
 
     return
 # ------------------------------------------------------------------------------
 def Sec1_Ch4():
     Ch4 = "Ch1_4.txt"
-    Ch4Res = ('5', 'Now that the party is jumping\n')
+    Ch4Res = "'5', b'Now that the party is jumping\n'"
     print("Section 1 : Challenge 4 \n")
 
     result = mf.BreakCypherHex(Ch4)
-    print("Ans: '{}' ".format(result))
-    print("Key: 'b'{}' ".format(Ch4Res))
+    print("Line: {}".format(result[3]))
+    print("Ans: '{}', {} ".format(result[1], result[2]))
+    print("Key: {} ".format(Ch4Res))
     
     return
 # ------------------------------------------------------------------------------
@@ -62,8 +63,8 @@ def Sec1_Ch5():
     print("Section 1 : Challenge 5 \n")
 
     result = mf.EncryptFileKey(Ch5, Ch5k)
-    print("Ans: '{}' ".format(result))
-    print("Key: 'b'{}' ".format(Ch5Res))
+    print("Ans: {} ".format(result))
+    print("Key: b'{}' ".format(Ch5Res))
 
     return
 # ------------------------------------------------------------------------------
@@ -86,7 +87,10 @@ def Sec1_Ch6():
     key = bf.RepString(key, len(temp))
     key = bf.Str2Byt(key)
     plain_text = bf.DualBufferXOR(temp, key)
-    print(plain_text)
+    print("Decrypted Text: \n")
+    print(bf.Byt2Str(plain_text))
+    with open("Output_"+Ch6, 'w') as fd:
+        fd.write(bf.Byt2Str(plain_text))
     
     return
 # ------------------------------------------------------------------------------
@@ -103,7 +107,8 @@ def Sec1_Ch7():
     temp = bf.Base642Byt(temp)
     ktemp = bf.Str2Byt(Ch7k)
     result = mf.DecryptAES128_ECB(temp, ktemp)
-    with open("Output_" + Ch7, 'wb') as fd:
+    result = bf.Byt2Str(result)
+    with open("Output_" + Ch7, 'w') as fd:
         fd.write(result)
     print("Ans: '{}' ".format(result))
 
@@ -123,7 +128,9 @@ def Sec1_Ch8():
             temp = bf.Str2Byt(temp)
             rtemp[idx] = mf.DetectAES128_ECB(temp)
     result = max(rtemp, key=rtemp.get)
-    print("Expected: {} | {} is the result. \n".format(Ch8Res,result))
+    print("The line dectedted as AES with ECB mode is:")
+    print("Expected: {} ".format(Ch8Res))
+    print("Result:   {} ".format(result))
 
     return
 # ------------------------------------------------------------------------------
@@ -143,7 +150,7 @@ def Sec2_Ch10():
     Ch10 = "Ch2_10.txt"
     CH10Str = "YELLOW SUBMARINE"
     CH10Iv = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
-    
+
 
     return
 # ------------------------------------------------------------------------------

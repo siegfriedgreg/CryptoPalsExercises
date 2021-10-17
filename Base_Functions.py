@@ -43,7 +43,7 @@ def Byt2Hex(temp):
 
 # Takes Byte string and returns a ASCII string
 def Byt2Str(temp):
-    return temp.decode('utf-8')
+    return temp.decode('latin_1')
 
 # Takes Base64 string and returns a Byte string
 def Base642Byt(temp):
