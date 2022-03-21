@@ -1,6 +1,6 @@
 # Crypto Pals Exercises:
     Python code using jupyter notebook to facilitate in completeing
-    the CryptoPals Exercises founf here:  www.cryptopals.com
+    the CryptoPals Exercises found here:  www.cryptopals.com
 
     If you want to run the program challenges, open the Challenge_List
     in jupyter notebook, uncomment a challenge line, and run the cell.
@@ -24,7 +24,7 @@
 ### Modules Required:
     Python 3+ | PyCryptoDome 3+ | Jupyter Notebook* 
     
-    * Jupyter Notebook is not required, but is used for convenience.
+    * Jupyter Notebook is not required, but is used for convenience as stated above.
 
 #### Set 1:
     Ch 1 : complete, convert hex to base64
